@@ -7,7 +7,7 @@ from PIL import Image
 import tensorflow as tf
 
 # Load the model
-model = tf.keras.models.load_model('sign_language_model')
+model = tf.keras.models.load_model('Sign_models')
 
 # Constants
 LABELS = ['A', 'M', 'N', 'S', 'T', 'blank']
