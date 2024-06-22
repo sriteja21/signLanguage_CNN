@@ -1,5 +1,4 @@
 import streamlit as st
-import numpy as np
 import cv2
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.efficientnet import preprocess_input
@@ -19,16 +18,16 @@ NUM_CLASSES = len(LABELS)
 def preprocess_image(img):
     img = img.resize(IMAGE_SIZE)
     img_array = image.img_to_array(img)
-    img_array = img_array * 1./255  # Rescale
-    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
-    img_array = preprocess_input(img_array)        # Preprocess using EfficientNet's method
+    img_array = img_array / 255.0  # Rescale
+    img_array = img_array.reshape((1,) + img_array.shape)  # Add batch dimension
+    img_array = preprocess_input(img_array)  # Preprocess using EfficientNet's method
     return img_array
 
 # Function to classify the sign language gesture
 def classify_gesture(img):
     img_array = preprocess_image(img)
     prediction = model.predict(img_array)
-    predicted_class_index = np.argmax(prediction)
+    predicted_class_index = prediction.argmax()
     predicted_class = LABELS[predicted_class_index]
     return predicted_class
 
